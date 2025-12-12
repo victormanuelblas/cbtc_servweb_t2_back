@@ -44,5 +44,17 @@ namespace servweb1_t2.Infrastructure.Persistence.Repositories
         {
             return await _context.Books.FirstOrDefaultAsync(b => b.Isbn == isbn);
         }
+
+        public async Task SaveArticuloBajaAsync(ArticuloBaja articuloBaja)
+        {
+            await _context.Set<ArticuloBaja>().AddAsync(articuloBaja);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveArticuloLiquidacionAsync(ArticuloLiquidacion articuloLiquidacion)
+        {
+            await _context.Set<ArticuloLiquidacion>().AddAsync(articuloLiquidacion);
+            await _context.SaveChangesAsync();
+        }
     }
 }

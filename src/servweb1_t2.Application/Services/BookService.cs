@@ -52,7 +52,7 @@ namespace servweb1_t2.Application.Services
                 throw new NotFoundException(id,"Book");
             }
             _mapper.Map(updateBookDto, book);
-            _unitOfWork.BooksRepository.UpdateBookAsync(book);
+            await _unitOfWork.BooksRepository.UpdateBookAsync(book);
             await _unitOfWork.CommitTransactionAsync();
             return _mapper.Map<BookDto>(book);
         }
@@ -63,9 +63,55 @@ namespace servweb1_t2.Application.Services
             {
                 throw new NotFoundException(id,"Book");   
             }
-            _unitOfWork.BooksRepository.DeleteBookAsync(book);
+            await _unitOfWork.BooksRepository.DeleteBookAsync(book);
             await _unitOfWork.CommitTransactionAsync();
             return true;
+        }
+
+        public async Task DarBajaAsync(int id)
+        {
+            var book = await _unitOfWork.BooksRepository.GetBookByIdAsync(id);
+            if (book == null)
+            {
+                throw new NotFoundException(id, "Book");
+            }
+
+            await _unitOfWork.BeginTransactionAsync();
+            try
+            {
+                // registrar baja
+                var baja = new ArticuloBaja
+                {
+                    BookId = book.Id,
+                    Title = book.Title,
+                    FechaBaja = DateTime.Now,
+                    Motivo = "Dar de baja desde API"
+                };
+                await _unitOfWork.BooksRepository.SaveArticuloBajaAsync(baja);
+
+                // si tiene stock, registrar liquidacion
+                if (book.Stock > 0)
+                {
+                    var liq = new ArticuloLiquidacion
+                    {
+                        BookId = book.Id,
+                        Title = book.Title,
+                        Quantity = book.Stock,
+                        FechaLiquidacion = DateTime.Now
+                    };
+                    await _unitOfWork.BooksRepository.SaveArticuloLiquidacionAsync(liq);
+                }
+
+                // eliminar el articulo (para que no se visualice al regresar)
+                await _unitOfWork.BooksRepository.DeleteBookAsync(book);
+
+                await _unitOfWork.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                throw;
+            }
         }
     }
 }

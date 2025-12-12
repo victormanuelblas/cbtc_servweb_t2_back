@@ -9,5 +9,6 @@ namespace servweb1_t2.Application.Interfaces
         Task<BookDto> CreateBookAsync(CreateBookDto createBookDto);
         Task<BookDto> UpdateBookAsync(int id, UpdateBookDto updateBookDto);
         Task<bool> DeleteBookAsync(int id);
+        Task DarBajaAsync(int id);
     }
 };

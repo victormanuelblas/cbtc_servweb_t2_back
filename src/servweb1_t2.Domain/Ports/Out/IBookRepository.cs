@@ -10,5 +10,7 @@ namespace servweb1_t2.Domain.Ports.Out
         Task UpdateBookAsync(Book book);
         Task DeleteBookAsync(Book book);
         Task<Book> GetBookByIsbnAsync(string isbn);
+        Task SaveArticuloBajaAsync(Entities.ArticuloBaja articuloBaja);
+        Task SaveArticuloLiquidacionAsync(Entities.ArticuloLiquidacion articuloLiquidacion);
     }
 }

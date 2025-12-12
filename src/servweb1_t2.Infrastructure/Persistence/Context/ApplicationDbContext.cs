@@ -13,6 +13,8 @@ namespace servweb1_t2.Infrastructure.Persistence.Context
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Loan> Loans { get; set; }
+        public DbSet<servweb1_t2.Domain.Entities.ArticuloBaja> ArticulosBaja { get; set; }
+        public DbSet<servweb1_t2.Domain.Entities.ArticuloLiquidacion> ArticulosLiquidacion { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
