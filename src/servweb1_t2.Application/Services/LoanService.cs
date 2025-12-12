@@ -48,7 +48,7 @@ namespace servweb1_t2.Application.Services
                 throw new NotFoundException(id,"Loan");
             }
             _mapper.Map(updateLoanDto, loan);
-            _unitOfWork.LoansRepository.UpdateLoanAsync(loan);
+            await _unitOfWork.LoansRepository.UpdateLoanAsync(loan);
             await _unitOfWork.CommitTransactionAsync();
             return _mapper.Map<LoanDto>(loan);
         }

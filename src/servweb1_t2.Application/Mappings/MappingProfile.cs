@@ -12,8 +12,10 @@ namespace servweb1_t2.Application.Mappings
             CreateMap<CreateBookDto, Book>().ReverseMap();
             CreateMap<Book, BookDto>().ReverseMap();
             CreateMap<UpdateBookDto, Book>().ReverseMap();
+
             CreateMap<CreateLoanDto, Loan>().ReverseMap();
             CreateMap<Loan, LoanDto>().ReverseMap();
+
             CreateMap<UpdateLoanDto, Loan>().ReverseMap();
         }
     }
