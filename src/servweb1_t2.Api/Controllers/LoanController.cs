@@ -32,6 +32,24 @@ public class LoanController : ControllerBase
             return NotFound(ex.Message);
         }
     }
+
+    [HttpPost("{id}/return")]
+    public async Task<IActionResult> ReturnLoan(int id)
+    {
+        try
+        {
+            await _loanService.ReturnLoanAsync(id);
+            return Ok(new { message = "Préstamo devuelto correctamente." });
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (DomainException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     [HttpPost]
     public async Task<IActionResult> CreateLoan([FromBody] CreateLoanDto createLoanDto)
     {

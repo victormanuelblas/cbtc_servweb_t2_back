@@ -72,4 +72,18 @@ public class BookController : ControllerBase
             return NotFound(ex.Message);
         }
     }    
+
+    [HttpPost("{id}/dar-baja")]
+    public async Task<IActionResult> DarBaja(int id)
+    {
+        try
+        {
+            await _bookService.DarBajaAsync(id);
+            return Ok(new { message = "Articulo dado de baja correctamente." });
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
 }
